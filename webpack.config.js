@@ -1,4 +1,4 @@
-import path, { dirname } from "path";
+import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { VueLoaderPlugin } from "vue-loader";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -18,22 +18,50 @@ const config = {
     filename: "[contenthash].bundle.js",
     path: __dirname + "/build",
   },
-
   module: {
     rules: [
       {
         test: /\.vue$/,
         loader: "vue-loader",
       },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@vue/babel-preset-app"],
+          },
+        },
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: { publicPath: "" },
+          },
+          "css-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: ["postcss-preset-env"],
+              },
+            },
+          },
+        ],
+      },
     ],
   },
 
   plugins: [
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin(),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
-    new CleanWebpackPlugin(),
   ],
 
   devtool: isProd ? "source-map" : "cheap-module-source-map",
