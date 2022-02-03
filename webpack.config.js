@@ -1,7 +1,6 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { VueLoaderPlugin } from "vue-loader";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
@@ -35,12 +34,9 @@ const config = {
         },
       },
       {
-        test: /\.css$/,
+        test: /\.s[ac]ss$/i,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: { publicPath: "" },
-          },
+          "vue-style-loader",
           "css-loader",
           {
             loader: "postcss-loader",
@@ -50,6 +46,13 @@ const config = {
               },
             },
           },
+          {
+            loader: "sass-loader",
+            options: {
+              additionalData: "@import './src/styles/main.scss';"
+              ,
+            },
+          },
         ],
       },
     ],
@@ -57,7 +60,6 @@ const config = {
 
   plugins: [
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin(),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",

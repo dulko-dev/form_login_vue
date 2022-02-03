@@ -1,30 +1,17 @@
 <template>
-  <div class="container">
-    <h1>{{ age }}</h1>
-    <div>App</div>
-    <b-button variant="primary">Primary</b-button>
-    <child></child>
-  </div>
+  <div>VUE</div>
 </template>
 
 <script>
-import Branch from "./Branch.vue";
 export default {
-  components: {
-    child: Branch,
-  },
-  data() {
-    return {
-      sayMyName: "Kamil",
-      age: 'Dulko',
-    };
-  },
+  name: "App",
 };
 </script>
 
-<style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
+<style lang="scss">
+div {
+  width: 100%;
+  height: 100vh;
+  background: grey;
 }
 </style>
