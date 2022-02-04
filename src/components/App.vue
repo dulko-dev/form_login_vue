@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p>{{ count }}</p>
-    <button :click="add">Add</button>
+    <p>Time clicked:{{ count }}</p>
+    <button @click="add">add</button>
   </div>
 </template>
 
@@ -12,9 +12,9 @@ export default {
   setup() {
     const count = ref(0);
 
-    function add() {
+    const add = () => {
       count.value++;
-    }
+    };
 
     return {
       count,
@@ -29,5 +29,6 @@ div {
   width: 100%;
   height: 100vh;
   background: grey;
+  color: white;
 }
 </style>
