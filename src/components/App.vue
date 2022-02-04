@@ -1,10 +1,26 @@
 <template>
-  <div>VUE</div>
+  <div>
+    <p>{{ count }}</p>
+    <button :click="add">Add</button>
+  </div>
 </template>
 
 <script>
+import { ref } from "vue";
 export default {
   name: "App",
+  setup() {
+    const count = ref(0);
+
+    function add() {
+      count.value++;
+    }
+
+    return {
+      count,
+      add,
+    };
+  },
 };
 </script>
 

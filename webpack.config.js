@@ -1,4 +1,5 @@
 import { dirname } from "path";
+import webpack from "webpack";
 import { fileURLToPath } from "url";
 import { VueLoaderPlugin } from "vue-loader";
 import HtmlWebpackPlugin from "html-webpack-plugin";
@@ -26,12 +27,7 @@ const config = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env", "@vue/babel-preset-app"],
-          },
-        },
+        use: ["babel-loader"],
       },
       {
         test: /\.s[ac]ss$/i,
@@ -49,8 +45,7 @@ const config = {
           {
             loader: "sass-loader",
             options: {
-              additionalData: "@import './src/styles/main.scss';"
-              ,
+              additionalData: "@import './src/styles/main.scss';",
             },
           },
         ],
@@ -63,6 +58,10 @@ const config = {
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+    }),
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: "false",
+      __VUE_PROD_DEVTOOLS__: "false",
     }),
   ],
 
