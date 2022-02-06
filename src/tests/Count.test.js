@@ -1,5 +1,5 @@
 import { render, fireEvent } from "@testing-library/vue";
-import Component from "../components/App.vue";
+import Component from "../App.vue";
 
 test("increment value on click", async () => {
   const { getByText } = render(Component);
