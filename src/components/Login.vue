@@ -42,11 +42,11 @@ export default {
 
 <style lang="scss" scoped>
 .login {
-  height: 100%;
+  height:100%;
   width:100%;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 25% 50% 25%;
+  grid-template-rows: 40% 50% 10%;
   justify-content: center;
   &__title {
     font-size: 1.2em;

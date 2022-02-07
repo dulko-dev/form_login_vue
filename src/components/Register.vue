@@ -8,6 +8,7 @@
         id="userName"
         placeholder="User name"
         v-model="username"
+        ref="inputRef"
       />
       <label for="email"></label>
       <input type="text" id="email" placeholder="Email" v-model="email" />
@@ -24,14 +25,20 @@
 </template>
 
 <script>
-import { reactive, toRefs } from "vue";
+import { ref,reactive, toRefs, onMounted } from "vue";
 export default {
   name: "Register",
   setup() {
+    const inputRef = ref(null);
+
     const formState = reactive({
       username: "",
       email: "",
       password: "",
+    });
+
+    onMounted(() => {
+      inputRef.value.focus();
     });
 
     function send() {
@@ -43,6 +50,7 @@ export default {
 
     return {
       send,
+      inputRef,
       ...toRefs(formState),
     };
   },
@@ -54,32 +62,44 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 40% 50% 10%;
+  grid-template-rows: 25% 70% 15%;
   justify-content: center;
   &__title {
     font-size: 1.2em;
     grid-row: 1/2;
-    align-self: center;
+    align-self: end;
     justify-self: center;
     color: $fontColor-title;
+    font-weight: 600;
     @media (min-width: 150px) {
-      font-size: 2em;
+      font-size: 2.5em;
     }
   }
   &__container {
     display: flex;
     grid-row: 2/3;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin: 20px 5px;
     align-items: center;
     input {
       padding: 10px 5px;
       border-radius: 5px;
       width: 100%;
+      border: 0;
+      margin-top: 20px;
+      &:nth-child(2) {
+        margin-top: 35px;
+      }
     }
-    input[type="button"] {
+    input[type="submit"] {
       width: 90%;
+      background-color: $bg-button;
+      color: $fontColor-title;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
 }

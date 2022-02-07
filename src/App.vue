@@ -5,7 +5,7 @@
         <Register />
       </div>
       <div class="main__login">
-        <Login />
+        <Login v-show="false" />
       </div>
     </div>
   </section>
@@ -29,22 +29,31 @@ export default {
   height: 100vh;
   display: flex;
   justify-content: center;
-  background-color: $background-app;
+  background: #0f0c29;
+  background: -webkit-linear-gradient(to left, #24243e, #302b63, #0f0c29);
+  background: linear-gradient(to left, #24243e, #302b63, #0f0c29);
+
   &__content {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+      rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    border-radius: 7px;
     position: relative;
     margin: auto 10px;
     width: 350px;
     max-width: 100%;
     height: 500px;
-    background: $background-form;
-    &__register {
+    background-image: url(#{$bg-register}/bg-register.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    .main__register {
       height: 100%;
     }
-    &__login {
-
+    .main__login {
+      height: 100%;
       position: absolute;
-      bottom:-100px;
-      left:0;
+      bottom: -75%;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 }
