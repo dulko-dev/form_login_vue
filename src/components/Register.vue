@@ -62,7 +62,7 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 25% 70% 15%;
+  grid-template-rows: 20% 80%;
   justify-content: center;
   &__title {
     font-size: 1.2em;

@@ -42,36 +42,47 @@ export default {
 
 <style lang="scss" scoped>
 .login {
-  height:100%;
-  width:100%;
+  height: 100%;
+  width: 100%;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 40% 50% 10%;
+  grid-template-rows: 20% 50%;
   justify-content: center;
   &__title {
+    color: $bg-button;
     font-size: 1.2em;
     grid-row: 1/2;
-    align-self: center;
+    align-self: start;
     justify-self: center;
-    color: $fontColor-title;
+    font-weight: 600;
+    margin-top:10px;
     @media (min-width: 150px) {
-      font-size: 2em;
+      font-size: 2.5em;
     }
   }
   &__container {
     display: flex;
     grid-row: 2/3;
     flex-direction: column;
-    justify-content: space-between;
-    margin: 20px 5px;
+    justify-content: flex-start;
+
     align-items: center;
     input {
       padding: 10px 5px;
+      margin-top:20px;
       border-radius: 5px;
       width: 100%;
+      background:#dddddd;
+      border:0;
     }
-    input[type="button"] {
+    input[type="submit"] {
       width: 90%;
+      background-color: $bg-button;
+      color: $fontColor-title;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
 }
