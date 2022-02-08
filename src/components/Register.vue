@@ -1,6 +1,6 @@
 <template>
   <form class="register" @submit.prevent="send">
-    <h3 class="register__title">Sign up</h3>
+    <h3 class="register__title" @click="openLogin = false">Sign up</h3>
     <div class="register__container">
       <label for="userName"></label>
       <input
@@ -25,11 +25,12 @@
 </template>
 
 <script>
-import { ref,reactive, toRefs, onMounted } from "vue";
+import { ref, reactive, toRefs, onMounted, inject } from "vue";
 export default {
   name: "Register",
   setup() {
     const inputRef = ref(null);
+    const openLogin = inject("changeLogin");
 
     const formState = reactive({
       username: "",
@@ -51,6 +52,7 @@ export default {
     return {
       send,
       inputRef,
+      openLogin,
       ...toRefs(formState),
     };
   },
@@ -65,6 +67,7 @@ export default {
   grid-template-rows: 20% 80%;
   justify-content: center;
   &__title {
+    cursor: pointer;
     font-size: 1.2em;
     grid-row: 1/2;
     align-self: end;
@@ -101,6 +104,9 @@ export default {
         opacity: 0.8;
       }
     }
+  }
+  .modal {
+    background: red;
   }
 }
 </style>

@@ -4,7 +4,10 @@
       <div class="main__register">
         <Register />
       </div>
-      <div class="main__login">
+      <div
+        class="main__login"
+        :class="openLogin ? 'openWindow' : 'closeWindow'"
+      >
         <Login />
       </div>
     </div>
@@ -12,6 +15,7 @@
 </template>
 
 <script>
+import { ref, provide } from "vue";
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
 export default {
@@ -20,12 +24,20 @@ export default {
     Login,
     Register,
   },
+  setup() {
+    const openLogin = ref(true);
+    provide("changeLogin", openLogin);
+
+    return {
+      openLogin,
+    };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .main {
-  width:100%;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -53,8 +65,16 @@ export default {
       height: 100%;
       border-radius: 50%/10%;
       position: absolute;
+    }
+    .openWindow {
+      transition: top 1s;
       width: 100%;
       top: 25%;
+    }
+    .closeWindow {
+      transition: top 1s;
+      width: 100%;
+      top: 75%;
     }
   }
 }
