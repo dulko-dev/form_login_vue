@@ -11,13 +11,17 @@
         placeholder="Password"
         v-model="password"
       />
-      <input type="submit" value="Login" />
+      <input
+        type="submit"
+        value="Login"
+        :class="btnAccept ? 'btnOpen' : 'btnClose'"
+      />
     </div>
   </form>
 </template>
 
 <script>
-import { reactive, toRefs, inject } from "vue";
+import {ref, reactive, toRefs, inject, watch } from "vue";
 export default {
   name: "Login",
   setup() {
@@ -26,16 +30,28 @@ export default {
       password: "",
     });
     const openLogin = inject("changeLogin");
-
+    let btnAccept = ref(false);
     function send() {
       console.log(formState);
       formState.email = "";
       formState.password = "";
     }
 
+    watch(
+      () => ({ ...formState }),
+      (val) => {
+        if (val.email !== "" && val.password !== "") {
+          btnAccept.value = true;
+        } else {
+          btnAccept.value = false;
+        }
+      }
+    );
+
     return {
       send,
       openLogin,
+      btnAccept,
       ...toRefs(formState),
     };
   },
@@ -86,6 +102,14 @@ export default {
         opacity: 0.8;
       }
     }
+  }
+  .btnOpen {
+    pointer-events: all;
+    opacity: 1;
+  }
+  .btnClose {
+    pointer-events: none;
+    opacity: 0.5;
   }
 }
 </style>

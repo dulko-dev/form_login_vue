@@ -19,18 +19,23 @@
         placeholder="Password"
         v-model="password"
       />
-      <input type="submit" value="Sign up" />
+      <input
+        type="submit"
+        value="Sign up"
+        :class="btnAccept ? '.btnOpen' : 'btnClose'"
+      />
     </div>
   </form>
 </template>
 
 <script>
-import { ref, reactive, toRefs, onMounted, inject } from "vue";
+import { ref, reactive, toRefs, onMounted, inject, watch } from "vue";
 export default {
   name: "Register",
   setup() {
     const inputRef = ref(null);
     const openLogin = inject("changeLogin");
+    let btnAccept = ref(false);
 
     const formState = reactive({
       username: "",
@@ -42,8 +47,24 @@ export default {
       inputRef.value.focus();
     });
 
+    watch(
+      () => {
+        return { ...formState };
+      },
+      (newVal) => {
+        if (
+          newVal.username !== "" &&
+          newVal.email !== "" &&
+          newVal.password !== ""
+        ) {
+          btnAccept.value = true;
+        } else {
+          btnAccept.value = false;
+        }
+      }
+    );
+
     function send() {
-      console.log(formState);
       formState.username = "";
       formState.email = "";
       formState.password = "";
@@ -53,6 +74,7 @@ export default {
       send,
       inputRef,
       openLogin,
+      btnAccept,
       ...toRefs(formState),
     };
   },
@@ -107,6 +129,14 @@ export default {
   }
   .modal {
     background: red;
+  }
+  .btnOpen {
+    pointer-events: all;
+    opacity: 1;
+  }
+  .btnClose {
+    pointer-events: none;
+    opacity: 0.5;
   }
 }
 </style>
