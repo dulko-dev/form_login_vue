@@ -56,7 +56,7 @@ export default {
     overflow: hidden;
     .main__register {
       height: 100%;
-      background-image: url(#{$bg-register}/bg-register.jpg);
+      background-image: url(#{$bg-register});
       background-repeat: no-repeat;
       background-size: cover;
     }

@@ -10,15 +10,26 @@
         v-model="username"
         ref="inputRef"
       />
-      <label for="email"></label>
-      <input type="text" id="email" placeholder="Email" v-model="email" />
-      <label for="password"></label>
+      <label for="emailRegister"></label>
       <input
         type="text"
-        id="password"
+        id="emailRegister"
+        placeholder="Email"
+        v-model="email"
+      />
+      <label for="passwordRegister">
+        <div class="image_container" @click="changeEye($event)">
+          <img v-if="eye" src="../assets/hidden.png" />
+          <img v-else src="../assets/view.png" />
+        </div>
+      </label>
+      <input
+        type="password"
+        id="passwordRegister"
         placeholder="Password"
         v-model="password"
       />
+
       <input
         type="submit"
         value="Sign up"
@@ -36,6 +47,7 @@ export default {
     const inputRef = ref(null);
     const openLogin = inject("changeLogin");
     let btnAccept = ref(false);
+    let eye = ref(true);
 
     const formState = reactive({
       username: "",
@@ -46,6 +58,16 @@ export default {
     onMounted(() => {
       inputRef.value.focus();
     });
+
+    function changeEye(e) {
+      eye.value = !eye.value;
+
+      if (eye.value) {
+        e.target.closest("label").nextElementSibling.type = "password";
+      } else {
+        e.target.closest("label").nextElementSibling.type = "text";
+      }
+    }
 
     watch(
       () => {
@@ -75,6 +97,8 @@ export default {
       inputRef,
       openLogin,
       btnAccept,
+      eye,
+      changeEye,
       ...toRefs(formState),
     };
   },
@@ -82,61 +106,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.register {
-  height: 100%;
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: 20% 80%;
-  justify-content: center;
-  &__title {
-    cursor: pointer;
-    font-size: 1.2em;
-    grid-row: 1/2;
-    align-self: end;
-    justify-self: center;
-    color: $fontColor-title;
-    font-weight: 600;
-    @media (min-width: 150px) {
-      font-size: 2.5em;
-    }
-  }
-  &__container {
-    display: flex;
-    grid-row: 2/3;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin: 20px 5px;
-    align-items: center;
-    input {
-      padding: 10px 5px;
-      border-radius: 5px;
-      width: 100%;
-      border: 0;
-      margin-top: 20px;
-      &:nth-child(2) {
-        margin-top: 35px;
-      }
-    }
-    input[type="submit"] {
-      width: 90%;
-      background-color: $bg-button;
-      color: $fontColor-title;
-      cursor: pointer;
-      &:hover {
-        opacity: 0.8;
-      }
-    }
-  }
-  .modal {
-    background: red;
-  }
-  .btnOpen {
-    pointer-events: all;
-    opacity: 1;
-  }
-  .btnClose {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-}
+@import "../styles/components/_register.scss";
 </style>

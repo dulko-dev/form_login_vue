@@ -17,9 +17,14 @@ const config = {
   output: {
     filename: "[contenthash].bundle.js",
     path: __dirname + "/build",
+    assetModuleFilename: "assets/[hash][ext][query]",
   },
   module: {
     rules: [
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset",
+      },
       {
         test: /\.vue$/,
         loader: "vue-loader",
