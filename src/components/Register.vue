@@ -9,6 +9,7 @@
         placeholder="User name"
         v-model="username"
         ref="inputRef"
+        required
       />
       <label for="emailRegister"></label>
       <input
@@ -16,6 +17,7 @@
         id="emailRegister"
         placeholder="Email"
         v-model="email"
+        required
       />
       <label for="passwordRegister">
         <div class="image_container" @click="changeEye($event)">
@@ -28,6 +30,7 @@
         id="passwordRegister"
         placeholder="Password"
         v-model="password"
+        required
       />
 
       <input
@@ -87,6 +90,13 @@ export default {
     );
 
     function send() {
+      if (
+        formState.username === "" ||
+        formState.email === "" ||
+        formState.password === ""
+      )
+        return;
+
       formState.username = "";
       formState.email = "";
       formState.password = "";
