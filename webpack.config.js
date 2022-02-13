@@ -77,6 +77,7 @@ const config = {
     },
     open: true,
     port: 1000,
+    historyApiFallback: true,
   },
 };
 
