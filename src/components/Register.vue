@@ -44,6 +44,8 @@
 
 <script>
 import { ref, reactive, toRefs, onMounted, inject, watch } from "vue";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 export default {
   name: "Register",
   setup() {
@@ -96,6 +98,18 @@ export default {
         formState.password === ""
       )
         return;
+  console.log(process.env)
+
+
+      // const auth = getAuth;
+      // createUserWithEmailAndPassword(auth, formState.email, formState.password)
+      //   .then((user) => {
+      //     console.log(user);
+
+      //   })
+      //   .catch((err) => {
+      //     error.value = err;
+      //   });
 
       formState.username = "";
       formState.email = "";

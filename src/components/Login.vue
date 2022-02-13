@@ -38,9 +38,11 @@ export default {
     const openLogin = inject("changeLogin");
     let btnAccept = ref(false);
     let eye = ref(true);
+    let error = ref("");
 
     function send() {
       console.log(formState);
+
       formState.email = "";
       formState.password = "";
     }

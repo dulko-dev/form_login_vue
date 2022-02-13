@@ -9,14 +9,13 @@
   "scripts": {
     "clear": "rm -rf ./build",
     "webpack": "webpack",
-    "webpack:build": "webpack build",
-    "webpack:serve": "webpack serve --open",
+    "build": "cross-env NODE_ENV=production webpack",
+    "serve": "webpack serve --open",
     "test": "jest"
   },
   "main": "index.js",
   "dependencies": {
     "core-js": "^3.21.0",
-    "env": "^0.0.2",
     "firebase": "^9.6.5",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12"
@@ -30,7 +29,9 @@
     "babel-jest": "^27.4.6",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.6.0",
+    "dotenv": "^16.0.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^27.4.7",
     "jest-vue": "^0.8.2",

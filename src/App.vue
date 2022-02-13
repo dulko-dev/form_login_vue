@@ -4,7 +4,7 @@
 
 <script>
 import { initializeApp } from "firebase/app";
-import { config } from "./firebase/config";
+import { config } from "./firebase/config.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
