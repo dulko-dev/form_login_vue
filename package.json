@@ -7,8 +7,7 @@
   "license": "ISC",
   "type": "module",
   "scripts": {
-    "clear": "rm -rf ./build",
-    "webpack": "webpack",
+    "webpack": "webpack --watch",
     "build": "cross-env NODE_ENV=production webpack",
     "serve": "webpack serve --open",
     "test": "jest"

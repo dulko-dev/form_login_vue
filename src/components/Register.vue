@@ -44,7 +44,8 @@
 
 <script>
 import { ref, reactive, toRefs, onMounted, inject, watch } from "vue";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import auth from "../firebase/config.js";
 
 export default {
   name: "Register",
@@ -53,6 +54,7 @@ export default {
     const openLogin = inject("changeLogin");
     let btnAccept = ref(false);
     let eye = ref(true);
+    let error = ref("");
 
     const formState = reactive({
       username: "",
@@ -98,18 +100,14 @@ export default {
         formState.password === ""
       )
         return;
-  console.log(process.env)
-
-
-      // const auth = getAuth;
-      // createUserWithEmailAndPassword(auth, formState.email, formState.password)
-      //   .then((user) => {
-      //     console.log(user);
-
-      //   })
-      //   .catch((err) => {
-      //     error.value = err;
-      //   });
+        
+      createUserWithEmailAndPassword(auth, formState.email, formState.password)
+        .then((user) => {
+          console.log("userInfo: ", user.user);
+        })
+        .catch((err) => {
+          error.value = err;
+        });
 
       formState.username = "";
       formState.email = "";

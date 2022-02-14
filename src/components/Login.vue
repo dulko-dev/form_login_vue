@@ -27,6 +27,7 @@
 
 <script>
 import { ref, reactive, toRefs, inject, watch } from "vue";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default {
   name: "Login",
@@ -41,7 +42,15 @@ export default {
     let error = ref("");
 
     function send() {
-      console.log(formState);
+      const auth = getAuth();
+
+      signInWithEmailAndPassword(auth, formState.email, formState.password)
+        .then((user) => {
+          console = user.user;
+        })
+        .catch((err) => {
+          error.value = err;
+        });
 
       formState.email = "";
       formState.password = "";
