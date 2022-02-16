@@ -1,0 +1,68 @@
+import { createStore } from "vuex";
+import auth from "../firebase/config.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
+import router from "../router/index.js";
+
+const store = createStore({
+  state: {
+    user: null,
+    guest: {
+      email: "admin@dev.com",
+      password: "123456",
+    },
+  },
+  mutations: {
+    setUser(state, payload) {
+      state.user = payload;
+      console.log("user state: ", state.user);
+    },
+    loginGuest(state) {
+      signInWithEmailAndPassword(auth, state.guest.email, state.guest.password);
+    },
+  },
+  actions: {
+    async signup(context, { email, password }) {
+      console.log("signup in action");
+
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (result) {
+        context.commit("setUser", result.user);
+      } else {
+        throw new Error("something went wrong with register");
+      }
+    },
+    async login(context, { email, password }) {
+      console.log("login in action");
+
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      if (result) {
+        context.commit("setUser", result.user);
+      } else {
+        throw new Error("something went wrong with login");
+      }
+    },
+    async logout(context) {
+      await signOut(auth);
+      context.commit("setUser", null);
+    },
+  },
+});
+
+const unsub = onAuthStateChanged(auth, (user) => {
+  store.commit("setUser", user);
+  if (user) {
+    router.push({ name: "User" });
+  }
+  unsub();
+});
+
+export default store;

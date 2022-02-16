@@ -1,5 +1,5 @@
 <template>
-  <form class="register" @submit.prevent="send">
+  <form class="register" @submit.prevent="signupUser">
     <h3 class="register__title" @click="openLogin = false">Sign up</h3>
     <div class="register__container">
       <label for="userName"></label>
@@ -40,12 +40,13 @@
       />
     </div>
   </form>
+  <div v-if="error">{{ error }}</div>
 </template>
 
 <script>
 import { ref, reactive, toRefs, onMounted, inject, watch } from "vue";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../firebase/config.js";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   name: "Register",
@@ -54,7 +55,9 @@ export default {
     const openLogin = inject("changeLogin");
     let btnAccept = ref(false);
     let eye = ref(true);
-    let error = ref("");
+    let error = ref(null);
+    const store = useStore();
+    const router = useRouter();
 
     const formState = reactive({
       username: "",
@@ -62,13 +65,12 @@ export default {
       password: "",
     });
 
-    onMounted(() => {
-      inputRef.value.focus();
-    });
+    // onMounted(() => {
+    //   inputRef.value.focus();
+    // });
 
     function changeEye(e) {
       eye.value = !eye.value;
-
       if (eye.value) {
         e.target.closest("label").nextElementSibling.type = "password";
       } else {
@@ -93,21 +95,27 @@ export default {
       }
     );
 
-    function send() {
+    async function signupUser() {
       if (
         formState.username === "" ||
         formState.email === "" ||
         formState.password === ""
       )
         return;
-        
-      createUserWithEmailAndPassword(auth, formState.email, formState.password)
-        .then((user) => {
-          console.log("userInfo: ", user.user);
-        })
-        .catch((err) => {
-          error.value = err;
+
+      try {
+        await store.dispatch("signup", {
+          email: formState.email,
+          password: formState.password,
         });
+        router.replace("/user");
+      } catch (err) {
+        error.value = error;
+      }
+
+      // await updateProfile(auth.currentUser, {
+      //   displayName: formState.username,
+      // }).catch((err) => console.log(err));
 
       formState.username = "";
       formState.email = "";
@@ -115,12 +123,13 @@ export default {
     }
 
     return {
-      send,
+      signupUser,
       inputRef,
       openLogin,
       btnAccept,
       eye,
       changeEye,
+      error,
       ...toRefs(formState),
     };
   },

@@ -1,32 +1,40 @@
 <template>
-  <h1>Welcome User</h1>
-  <button @click="logOutButton">LogOut</button>
+  <div class="user">
+    <h1>Welcome</h1>
+    <button @click="logOutButton">LogOut</button>
+  </div>
+  <div v-if="error">{{ error }}</div>
 </template>
 
 <script>
 import { ref } from "vue";
-import auth from "../firebase/config";
-import { signOut } from "firebase/auth";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+
 export default {
   name: "User",
-
   setup() {
-    let error = ref("");
-    function logOutButton() {
-      signOut(auth)
-        .then(() => {
-          this.$router.push({ name: "Form" });
-        })
-        .catch((err) => {
-          error.value = err;
-        });
+    const router = useRouter();
+    const store = useStore();
+    let error = ref(null);
+
+    async function logOutButton() {
+      try {
+        store.dispatch("logout");
+        router.replace("/");
+      } catch (err) {
+        error.value = error;
+      }
     }
 
     return {
+      error,
       logOutButton,
     };
   },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import "../styles/components/_user.scss";
+</style>
