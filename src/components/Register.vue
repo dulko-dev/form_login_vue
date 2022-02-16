@@ -107,15 +107,13 @@ export default {
         await store.dispatch("signup", {
           email: formState.email,
           password: formState.password,
+          userName: formState.username,
         });
+        await store.dispatch;
         router.replace("/user");
       } catch (err) {
         error.value = error;
       }
-
-      // await updateProfile(auth.currentUser, {
-      //   displayName: formState.username,
-      // }).catch((err) => console.log(err));
 
       formState.username = "";
       formState.email = "";

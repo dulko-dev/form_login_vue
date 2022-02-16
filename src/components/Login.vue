@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { ref, reactive, toRefs, inject, watch, computed } from "vue";
+import { ref, reactive, toRefs, inject, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -49,6 +49,7 @@ export default {
     async function loginGuest() {
       try {
         store.commit("loginGuest");
+        store.commit("changeLogin", true);
         router.replace("/user");
       } catch (err) {
         error.value = err.message;

@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import router from "../router/index.js";
 
@@ -14,7 +15,9 @@ const store = createStore({
     guest: {
       email: "admin@dev.com",
       password: "123456",
+      username: "Admin",
     },
+    defaultLogin: false,
   },
   mutations: {
     setUser(state, payload) {
@@ -24,9 +27,12 @@ const store = createStore({
     loginGuest(state) {
       signInWithEmailAndPassword(auth, state.guest.email, state.guest.password);
     },
+    changeLogin(state, payload) {
+      state.defaultLogin = payload;
+    },
   },
   actions: {
-    async signup(context, { email, password }) {
+    async signup(context, { email, password, userName }) {
       console.log("signup in action");
 
       const result = await createUserWithEmailAndPassword(
@@ -39,6 +45,10 @@ const store = createStore({
       } else {
         throw new Error("something went wrong with register");
       }
+
+      await updateProfile(auth.currentUser, {
+        displayName: userName,
+      });
     },
     async login(context, { email, password }) {
       console.log("login in action");
@@ -58,6 +68,7 @@ const store = createStore({
 });
 
 const unsub = onAuthStateChanged(auth, (user) => {
+  store.commit('changeLogin', true);
   store.commit("setUser", user);
   if (user) {
     router.push({ name: "User" });
