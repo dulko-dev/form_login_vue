@@ -6,6 +6,11 @@ const routes = [
     name: "Form",
     component: () => import("../views/Form.vue"),
   },
+  {
+    path: "/user",
+    name: "User",
+    component: () => import("../views/User.vue"),
+  },
 ];
 
 const router = createRouter({

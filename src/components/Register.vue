@@ -1,5 +1,5 @@
 <template>
-  <form class="register" @submit.prevent="send">
+  <form class="register" @submit.prevent="signupUser">
     <h3 class="register__title" @click="openLogin = false">Sign up</h3>
     <div class="register__container">
       <label for="userName"></label>
@@ -40,10 +40,14 @@
       />
     </div>
   </form>
+  <div v-if="error">{{ error }}</div>
 </template>
 
 <script>
 import { ref, reactive, toRefs, onMounted, inject, watch } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
 export default {
   name: "Register",
   setup() {
@@ -51,6 +55,9 @@ export default {
     const openLogin = inject("changeLogin");
     let btnAccept = ref(false);
     let eye = ref(true);
+    let error = ref(null);
+    const store = useStore();
+    const router = useRouter();
 
     const formState = reactive({
       username: "",
@@ -58,13 +65,12 @@ export default {
       password: "",
     });
 
-    onMounted(() => {
-      inputRef.value.focus();
-    });
+    // onMounted(() => {
+    //   inputRef.value.focus();
+    // });
 
     function changeEye(e) {
       eye.value = !eye.value;
-
       if (eye.value) {
         e.target.closest("label").nextElementSibling.type = "password";
       } else {
@@ -89,7 +95,7 @@ export default {
       }
     );
 
-    function send() {
+    async function signupUser() {
       if (
         formState.username === "" ||
         formState.email === "" ||
@@ -97,18 +103,31 @@ export default {
       )
         return;
 
+      try {
+        await store.dispatch("signup", {
+          email: formState.email,
+          password: formState.password,
+          userName: formState.username,
+        });
+        await store.dispatch;
+        router.replace("/user");
+      } catch (err) {
+        error.value = error;
+      }
+
       formState.username = "";
       formState.email = "";
       formState.password = "";
     }
 
     return {
-      send,
+      signupUser,
       inputRef,
       openLogin,
       btnAccept,
       eye,
       changeEye,
+      error,
       ...toRefs(formState),
     };
   },
