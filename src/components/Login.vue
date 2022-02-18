@@ -1,6 +1,6 @@
 <template>
   <form class="login" @submit.prevent="loginUser">
-    <h3 class="login__title" @click="openLogin = true">Login</h3>
+    <h3 data-testid='title-login' class="login__title" @click="openLogin = true">Login</h3>
     <div class="login__container">
       <label for="emailLogin"></label>
       <input type="text" id="emailLogin" placeholder="Email" v-model="email" />
@@ -44,7 +44,7 @@ export default {
     });
     const router = useRouter();
     const store = useStore();
-    const openLogin = inject("changeLogin");
+    const openLogin = inject("FormLogin", false);
 
     async function loginGuest() {
       try {
@@ -62,7 +62,6 @@ export default {
           email: formState.email,
           password: formState.password,
         });
-
         router.replace("/user");
       } catch (err) {
         error.value = err.message;

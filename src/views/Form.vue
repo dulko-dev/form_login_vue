@@ -26,7 +26,7 @@ export default {
   },
   setup() {
     const openLogin = ref(true);
-    provide("changeLogin", openLogin);
+    provide("FormLogin", openLogin);
 
     return {
       openLogin,

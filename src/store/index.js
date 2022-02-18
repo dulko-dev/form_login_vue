@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import auth from "../firebase/config.js";
+import { auth } from "../firebase/config.js";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -68,7 +68,7 @@ const store = createStore({
 });
 
 const unsub = onAuthStateChanged(auth, (user) => {
-  store.commit('changeLogin', true);
+  store.commit("changeLogin", true);
   store.commit("setUser", user);
   if (user) {
     router.push({ name: "User" });
