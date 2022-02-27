@@ -18,6 +18,8 @@ const store = createStore({
       username: "Admin",
     },
     defaultLogin: false,
+    errorRegister: null,
+    errorLogin: null,
   },
   mutations: {
     setUser(state, payload) {
@@ -29,6 +31,12 @@ const store = createStore({
     },
     changeLogin(state, payload) {
       state.defaultLogin = payload;
+    },
+    changeRegisterErr(state, payload) {
+      state.errorRegister = payload;
+    },
+    changeLoginErr(state, payload) {
+      state.errorLogin = payload;
     },
   },
   actions: {

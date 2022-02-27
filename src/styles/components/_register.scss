@@ -1,6 +1,6 @@
 .register {
   height: 100%;
-  width:100%;
+  width: 100%;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 20% 80%;
@@ -38,7 +38,6 @@
     label:nth-of-type(3) {
       position: relative;
       width: 100%;
- 
     }
     input[type="submit"] {
       width: 90%;
@@ -71,5 +70,9 @@
   .btnClose {
     pointer-events: none;
     opacity: 0.5;
+  }
+  .errorRegister {
+    color: $fontColor-error;
+    font-weight: 600;
   }
 }

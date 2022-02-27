@@ -3,13 +3,19 @@
     <h3
       data-testid="title-login"
       class="login__title"
-      @click="openLogin = true"
+      @click="[(openLogin = true), focusLogin()]"
     >
       Login
     </h3>
     <div class="login__container">
       <label for="emailLogin"></label>
-      <input type="text" id="emailLogin" placeholder="Email" v-model="email" />
+      <input
+        type="text"
+        id="emailLogin"
+        placeholder="Email"
+        v-model="email"
+        ref="inputLogin"
+      />
       <label for="passwordLogin">
         <div class="image_container" @click="changeEye($event)">
           <img v-if="eye" src="../assets/hidden.png" />
@@ -29,28 +35,36 @@
       />
       <input value="Login as Guest" type="button" @click="loginGuest" />
     </div>
-  <p class="errorLogin" v-if="error">{{ error }}</p>
+    <p class="errorLogin" v-if="error">{{ error }}</p>
   </form>
 </template>
 
 <script>
-import { ref, reactive, toRefs, inject, watch } from "vue";
+import { ref, reactive, toRefs, inject, watch, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 export default {
   name: "Login",
   setup() {
+    let inputLogin = ref(null);
     let btnAccept = ref(false);
     let eye = ref(true);
-    let error = ref(null);
     const formState = reactive({
       email: "",
       password: "",
     });
     const router = useRouter();
     const store = useStore();
-    const openLogin = inject("FormLogin", false);
+    const openLogin = inject("FormLogin");
+
+    onMounted(() => {
+      inputLogin.value.focus();
+    });
+
+    function focusLogin() {
+      store.commit("changeRegisterErr", "");
+    }
 
     async function loginGuest() {
       try {
@@ -70,8 +84,8 @@ export default {
         });
         router.replace("/user");
       } catch (err) {
-        error.value = 'email or login is invalid';
-        console.log(err.message)
+        store.commit("changeLoginErr", "email or password is invalid");
+        console.log(err.message);
       }
 
       formState.email = "";
@@ -105,7 +119,9 @@ export default {
       changeEye,
       eye,
       loginGuest,
-      error,
+      error: computed(() => store.state.errorLogin),
+      inputLogin,
+      focusLogin,
       ...toRefs(formState),
     };
   },

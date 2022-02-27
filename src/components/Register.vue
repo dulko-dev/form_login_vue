@@ -1,7 +1,11 @@
 <template>
   <form class="register" @submit.prevent="signupUser">
-    <h3 class="register__title" @click="openLogin = false">Sign up</h3>
+    <h3 class="register__title" @click="[(openLogin = false), focusInput()]">
+      Sign up
+    </h3>
     <div class="register__container">
+      <div class="errorRegister" v-if="error">{{ error }}</div>
+
       <label for="userName"></label>
       <input
         type="text"
@@ -40,34 +44,28 @@
       />
     </div>
   </form>
-  <div v-if="error">{{ error }}</div>
 </template>
 
 <script>
-import { ref, reactive, toRefs, inject, watch } from "vue";
+import { ref, reactive, toRefs, inject, watch, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 export default {
   name: "Register",
   setup() {
-    const inputRef = ref(null);
-    const openLogin = inject("FormLogin", false);
+    const openLogin = inject("FormLogin");
     let btnAccept = ref(false);
     let eye = ref(true);
-    let error = ref(null);
     const store = useStore();
     const router = useRouter();
+    const inputRef = ref(null);
 
     const formState = reactive({
       username: "",
       email: "",
       password: "",
     });
-
-    // onMounted(() => {
-    //   inputRef.value.focus();
-    // });
 
     function changeEye(e) {
       eye.value = !eye.value;
@@ -76,6 +74,14 @@ export default {
       } else {
         e.target.closest("label").nextElementSibling.type = "text";
       }
+    }
+
+    function focusInput() {
+      inputRef.value.focus();
+      formState.username = "";
+      formState.email = "";
+      formState.password = "";
+      store.commit("changeLoginErr", "");
     }
 
     watch(
@@ -109,25 +115,22 @@ export default {
           password: formState.password,
           userName: formState.username,
         });
-        await store.dispatch;
         router.replace("/user");
       } catch (err) {
-        error.value = error;
+        store.commit("changeRegisterErr", "email alread is exist");
+        console.log(err.message);
       }
-
-      formState.username = "";
-      formState.email = "";
-      formState.password = "";
     }
 
     return {
       signupUser,
-      inputRef,
       openLogin,
       btnAccept,
       eye,
       changeEye,
-      error,
+      error: computed(() => store.state.errorRegister),
+      inputRef,
+      focusInput,
       ...toRefs(formState),
     };
   },
