@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { ref, reactive, toRefs, onMounted, inject, watch } from "vue";
+import { ref, reactive, toRefs, inject, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -52,7 +52,7 @@ export default {
   name: "Register",
   setup() {
     const inputRef = ref(null);
-    const openLogin = inject("changeLogin");
+    const openLogin = inject("FormLogin", false);
     let btnAccept = ref(false);
     let eye = ref(true);
     let error = ref(null);
