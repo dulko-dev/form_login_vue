@@ -1,6 +1,12 @@
 <template>
   <form class="login" @submit.prevent="loginUser">
-    <h3 data-testid='title-login' class="login__title" @click="openLogin = true">Login</h3>
+    <h3
+      data-testid="title-login"
+      class="login__title"
+      @click="openLogin = true"
+    >
+      Login
+    </h3>
     <div class="login__container">
       <label for="emailLogin"></label>
       <input type="text" id="emailLogin" placeholder="Email" v-model="email" />
@@ -23,8 +29,8 @@
       />
       <input value="Login as Guest" type="button" @click="loginGuest" />
     </div>
+  <p class="errorLogin" v-if="error">{{ error }}</p>
   </form>
-  <div v-if="error">{{ error }}</div>
 </template>
 
 <script>
@@ -37,7 +43,7 @@ export default {
   setup() {
     let btnAccept = ref(false);
     let eye = ref(true);
-    const error = ref(null);
+    let error = ref(null);
     const formState = reactive({
       email: "",
       password: "",
@@ -58,13 +64,14 @@ export default {
 
     async function loginUser() {
       try {
-        store.dispatch("login", {
+        await store.dispatch("login", {
           email: formState.email,
           password: formState.password,
         });
         router.replace("/user");
       } catch (err) {
-        error.value = err.message;
+        error.value = 'email or login is invalid';
+        console.log(err.message)
       }
 
       formState.email = "";

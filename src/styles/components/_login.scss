@@ -3,7 +3,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 20% 50%;
+  grid-template-rows: 20% 47% 10%;
   justify-content: center;
   &__title {
     color: $bg-button;
@@ -65,5 +65,11 @@
   .btnClose {
     pointer-events: none;
     opacity: 0.5;
+  }
+  .errorLogin {
+    grid-row: 3/4;
+    color: #c40000;
+    font-weight: 600;
+    text-align: center;
   }
 }
