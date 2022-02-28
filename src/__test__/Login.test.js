@@ -4,10 +4,9 @@ import Login from "../../src/components/Login.vue";
 import mystore from "../store/index.js";
 import { routes } from "../router/index.js";
 import { createRouter, createWebHistory } from "vue-router";
-import { createStore } from "vuex";
 import User from "../views/User.vue";
+import Form from "../views/Form.vue";
 
-const store = createStore(mystore);
 const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -15,7 +14,10 @@ const router = createRouter({
 
 const wrapper = {
   global: {
-    plugins: [store, router],
+    plugins: [mystore, router],
+    provide: {
+      FormLogin: Form,
+    },
   },
 };
 

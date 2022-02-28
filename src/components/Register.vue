@@ -4,7 +4,9 @@
       Sign up
     </h3>
     <div class="register__container">
-      <div class="errorRegister" v-if="error">{{ error }}</div>
+      <div data-testid="error-register" class="errorRegister" v-if="error">
+        {{ error }}
+      </div>
 
       <label for="userName"></label>
       <input
@@ -117,8 +119,7 @@ export default {
         });
         router.replace("/user");
       } catch (err) {
-        store.commit("changeRegisterErr", "email alread is exist");
-        console.log(err.message);
+        store.commit("changeRegisterErr", "");
       }
     }
 

@@ -4,10 +4,9 @@ import Register from "../components/Register.vue";
 import mystore from "../store/index.js";
 import { routes } from "../router/index.js";
 import { createRouter, createWebHistory } from "vue-router";
-import { createStore } from "vuex";
 import User from "../views/User.vue";
+import Form from "../views/Form.vue";
 
-const store = createStore(mystore);
 const router = createRouter({
   history: createWebHistory(),
   routes,
@@ -15,9 +14,30 @@ const router = createRouter({
 
 const wrapper = {
   global: {
-    plugins: [store, router],
+    plugins: [mystore, router],
+    provide: {
+      FormLogin: Form,
+    },
+  
   },
 };
+
+// describe("Firebase", async () => {
+//   beforeEach(() => {
+//     render(Register, wrapper);
+//   });
+
+//   test("login by firebase", async () => {
+//     const { createUserWithEmailAndPassword } =
+//       require("../firebase/config.js").default;
+//     const email = "123dulko@wp.pl";
+//     createUserWithEmailAndPassword.mockReturnValue({
+//       user: email,
+//     });
+
+//     const {email, password, }
+//   });
+// });
 
 describe("Register option", () => {
   beforeEach(async () => {
@@ -42,5 +62,16 @@ describe("Register option", () => {
     await fireEvent.click(registerButton).then(() => render(User, wrapper));
     const buttonLogOut = screen.getByRole("button", { name: "LogOut" });
     expect(buttonLogOut).toHaveTextContent("LogOut");
+  });
+  test("show error", async () => {
+    const usernameInput = screen.getByPlaceholderText(/user name/i);
+    const emailInput = screen.getByPlaceholderText(/email/i);
+    const passwordInput = screen.getByPlaceholderText(/password/i);
+    const button = screen.getByRole("button", { name: /sign up/i });
+
+    await fireEvent.update(usernameInput, "dulko");
+    await fireEvent.update(emailInput, "admin@dev.pl");
+    await fireEvent.update(passwordInput, "123test");
+    await fireEvent.click(button);
   });
 });

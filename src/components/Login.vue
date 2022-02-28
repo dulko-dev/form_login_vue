@@ -36,6 +36,7 @@
       <input value="Login as Guest" type="button" @click="loginGuest" />
     </div>
     <p class="errorLogin" v-if="error">{{ error }}</p>
+    <p class="errorLogin" v-if="errorGuest">{{ errorGuest }}</p>
   </form>
 </template>
 
@@ -68,11 +69,16 @@ export default {
 
     async function loginGuest() {
       try {
-        store.commit("loginGuest");
-        store.commit("changeLogin", true);
+        await store.dispatch("guestLogin", {
+          email: store.state.guest.email,
+          password: store.state.guest.password,
+        });
         router.replace("/user");
       } catch (err) {
-        error.value = err.message;
+        store.commit(
+          "changeDefLoginErr",
+          "default email or password has broken"
+        );
       }
     }
 
@@ -85,7 +91,6 @@ export default {
         router.replace("/user");
       } catch (err) {
         store.commit("changeLoginErr", "email or password is invalid");
-        console.log(err.message);
       }
 
       formState.email = "";
@@ -120,6 +125,7 @@ export default {
       eye,
       loginGuest,
       error: computed(() => store.state.errorLogin),
+      errorGuest: computed(() => store.state.errorDefLogin),
       inputLogin,
       focusLogin,
       ...toRefs(formState),

@@ -20,14 +20,11 @@ const store = createStore({
     defaultLogin: false,
     errorRegister: null,
     errorLogin: null,
+    errorDefLogin: null,
   },
   mutations: {
     setUser(state, payload) {
       state.user = payload;
-      console.log("user state: ", state.user);
-    },
-    loginGuest(state) {
-      signInWithEmailAndPassword(auth, state.guest.email, state.guest.password);
     },
     changeLogin(state, payload) {
       state.defaultLogin = payload;
@@ -38,11 +35,15 @@ const store = createStore({
     changeLoginErr(state, payload) {
       state.errorLogin = payload;
     },
+    changeDefLoginErr(state, payload) {
+      state.errorDefLogin = payload;
+    },
   },
   actions: {
+    async guestLogin(context, { email, password }) {
+      await signInWithEmailAndPassword(auth, email, password);
+    },
     async signup(context, { email, password, userName }) {
-      console.log("signup in action");
-
       const result = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -59,8 +60,6 @@ const store = createStore({
       });
     },
     async login(context, { email, password }) {
-      console.log("login in action");
-
       const result = await signInWithEmailAndPassword(auth, email, password);
       if (result) {
         context.commit("setUser", result.user);
