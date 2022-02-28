@@ -22,23 +22,6 @@ const wrapper = {
   },
 };
 
-// describe("Firebase", async () => {
-//   beforeEach(() => {
-//     render(Register, wrapper);
-//   });
-
-//   test("login by firebase", async () => {
-//     const { createUserWithEmailAndPassword } =
-//       require("../firebase/config.js").default;
-//     const email = "123dulko@wp.pl";
-//     createUserWithEmailAndPassword.mockReturnValue({
-//       user: email,
-//     });
-
-//     const {email, password, }
-//   });
-// });
-
 describe("Register option", () => {
   beforeEach(async () => {
     render(Register, wrapper);
@@ -72,6 +55,6 @@ describe("Register option", () => {
     await fireEvent.update(usernameInput, "dulko");
     await fireEvent.update(emailInput, "admin@dev.pl");
     await fireEvent.update(passwordInput, "123test");
-    await fireEvent.click(button);
+    await fireEvent.click(button)
   });
 });

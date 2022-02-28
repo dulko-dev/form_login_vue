@@ -55,7 +55,7 @@ describe("log in to user", () => {
     const inputLogin = screen.getByPlaceholderText(/email/i);
     const password = screen.getByPlaceholderText(/password/i);
     const btnLogin = screen.getByRole("button", { name: "Login" });
-    await fireEvent.update(inputLogin, "admin@dev.pl");
+    await fireEvent.update(inputLogin, "admin@dev");
     await fireEvent.update(password, "123test");
     await fireEvent.click(btnLogin).then(() => render(User, wrapper));
     const logOutBtn = screen.getByRole("button", { name: "LogOut" });
