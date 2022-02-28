@@ -18,6 +18,9 @@ const store = createStore({
       username: "Admin",
     },
     defaultLogin: false,
+    error : {
+      errorLogOut:null,
+    },
     errorRegister: null,
     errorLogin: null,
     errorDefLogin: null,
@@ -38,10 +41,16 @@ const store = createStore({
     changeDefLoginErr(state, payload) {
       state.errorDefLogin = payload;
     },
+    changeLogOutErr(state,payload){
+      state.error.errorLogOut = payload;
+    }
   },
   actions: {
     async guestLogin(context, { email, password }) {
-      await signInWithEmailAndPassword(auth, email, password);
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      if (result) {
+        context.commit('setUser', result.user);
+      }
     },
     async signup(context, { email, password, userName }) {
       const result = await createUserWithEmailAndPassword(

@@ -3,6 +3,29 @@
   background: -webkit-linear-gradient(to left, #24243e, #302b63, #0f0c29);
   background: linear-gradient(to left, #24243e, #302b63, #0f0c29);
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   color: $bg-login;
+  &__board {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 80% 20%;
+    grid-template-rows: 20% 80%;
+    &__dashboardSquare {
+      grid-column: 1/2;
+      grid-row: 1/2;
+    }
+    &__clockSquare {
+      grid-column: 2/3;
+      grid-row: 1/2;
+    }
+    &__calendarSquare {
+      grid-column: 1/2;
+      grid-row: 2/3;
+    }
+    &__todoSquare {
+      grid-column: 2/3;
+      grid-row: 2/3;
+    }
+  }
 }
