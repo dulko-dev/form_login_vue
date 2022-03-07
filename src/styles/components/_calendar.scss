@@ -1,5 +1,56 @@
 .calendar {
+  display: flex;
   border: 5px solid green;
   width: 100%;
   height: 100%;
+  &__container {
+    width: 90%;
+    height: 90%;
+    border: 1px solid white;
+    margin: auto;
+    border-radius: 10px;
+    &--data {
+      height: 20%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      &--month {
+        padding-left: 50px;
+        font-size: 2em;
+      }
+      &--year {
+        display: flex;
+        font-size: 2em;
+        padding-right: 50px;
+        p {
+          padding: 0 10px;
+        }
+        pre {
+          font-weight: 600;
+        }
+      }
+    }
+    &--main {
+      height: 80%;
+      width: 100%;
+      padding: 0 50px;
+
+      &--days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: 1fr;
+        justify-items: center;
+        color: #c0c0c0;
+        font-size: 1em;
+      }
+      &--daysOfMonth {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: auto;
+        justify-items: center;
+        color: #c0c0c0;
+        font-size: 1em;
+      }
+    }
+  }
 }
