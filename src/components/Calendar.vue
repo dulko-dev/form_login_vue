@@ -19,17 +19,20 @@
           <div>Sat</div>
           <div>Sun</div>
         </div>
-        <div class="calendar__container--main--daysOfMonth"></div>
+        <div class="calendar__container--main--daysOfMonth">
+          <div v-for="(item, index) in items" :key="index">{{ item }}</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 export default {
   name: "Calendar",
   setup() {
+    const items = ref([]);
     function loadCalendar() {
       const fieldOfCalendar = document.querySelector(
         ".calendar__container--main--daysOfMonth"
@@ -57,19 +60,21 @@ export default {
       );
 
       for (let x = 1; x <= emptyBlockDay + daysCurrentMonth; x++) {
-        const daySquare = document.createElement("div");
-
         if (x > emptyBlockDay) {
-          daySquare.innerHTML = x - emptyBlockDay;
+          items.value.push(x - emptyBlockDay);
+        } else {
+          items.value.push("X");
         }
-
-        fieldOfCalendar.appendChild(daySquare);
       }
     }
 
     onMounted(() => {
       loadCalendar();
     });
+
+    return {
+      items,
+    };
   },
 };
 </script>
