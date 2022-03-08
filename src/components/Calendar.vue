@@ -11,43 +11,66 @@
       </div>
       <div class="calendar__container--main">
         <div class="calendar__container--main--days">
-          <div>Sun</div>
           <div>Mon</div>
           <div>Tue</div>
           <div>Wed</div>
           <div>Thu</div>
           <div>Fri</div>
           <div>Sat</div>
+          <div>Sun</div>
         </div>
-        <div class="calendar__container--main--daysOfMonth">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-          <div>6</div>
-          <div>7</div>
-          <div>8</div>
-          <div>9</div>
-          <div>10</div>
-          <div>11</div>
-          <div>12</div>
-          <div>13</div>
-          <div>14</div>
-          <div>15</div>
-          <div>16</div>
-          <div>17</div>
-          <div>18</div>
-          <div>19</div>
-        </div>
+        <div class="calendar__container--main--daysOfMonth"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { onMounted } from "vue";
 export default {
   name: "Calendar",
+  setup() {
+    function loadCalendar() {
+      const fieldOfCalendar = document.querySelector(
+        ".calendar__container--main--daysOfMonth"
+      );
+      const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+      const date = new Date();
+
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+
+      const daysCurrentMonth = new Date(year, month + 1, 0).getDate();
+      const firstDayMonth = new Date(year, month, 1);
+
+      const firstDayMonthString = firstDayMonth.toLocaleDateString("en-us", {
+        weekday: "short",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      });
+
+      const emptyBlockDay = weekdays.indexOf(
+        firstDayMonthString.split(", ")[0]
+      );
+
+      for (let x = 1; x <= emptyBlockDay + daysCurrentMonth; x++) {
+        const daySquare = document.createElement("div");
+
+        if (x > emptyBlockDay) {
+          daySquare.innerHTML = x - emptyBlockDay;
+        }
+
+        fieldOfCalendar.appendChild(daySquare);
+      }
+    }
+
+    onMounted(() => {
+      loadCalendar();
+    });
+  },
 };
 </script>
 

@@ -33,9 +33,11 @@ export default {
         let hand_min = minutes * 6 + seconds / 10;
         let hand_sec = seconds * 6;
 
-        hr.style.transform = `rotate(${hand_hr}deg)`;
-        min.style.transform = `rotate(${hand_min}deg)`;
-        sec.style.transform = `rotate(${hand_sec}deg)`;
+        if (hr || min || sec) {
+          hr.style.transform = `rotate(${hand_hr}deg)`;
+          min.style.transform = `rotate(${hand_min}deg)`;
+          sec.style.transform = `rotate(${hand_sec}deg)`;
+        }
       }, 1000);
     })();
   },
